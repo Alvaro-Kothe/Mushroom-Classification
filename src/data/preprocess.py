@@ -21,7 +21,7 @@ def prepare_data(df: pd.DataFrame) -> Tuple[Tuple[ndarray, ndarray], OrdinalEnco
     """
     Separate Dataframe in features and target, where target is if mushroom is poisonous.
     """
-    y = df.pop("class") == "p"
+    y = (df.pop("class") == "p").to_numpy()
     enc = OrdinalEncoder()
     X = enc.fit_transform(df)
     return (X, y), enc
@@ -40,7 +40,7 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
 
 
 @flow(name="Preprocess data")
-def main(input_path: str, output_directory: str):
+def main():
     """
     Read Dataset and generates 4 files in `output_directory`:
     - `train.pkl`: Train data (features, target).
@@ -48,19 +48,20 @@ def main(input_path: str, output_directory: str):
     - `test.pkl`: Test data (features, target).
     - `enc.pkl`: OrdinalEncoder for features.
     """
-    df = read_data(input_path)
-    (features, target), enc = prepare_data(df)
-    train, valid, test = split_data(features, target)
-    serialize_object(train, os.path.join(output_directory, "train.pkl"))
-    serialize_object(valid, os.path.join(output_directory, "valid.pkl"))
-    serialize_object(test, os.path.join(output_directory, "test.pkl"))
-    serialize_object(enc, os.path.join(output_directory, "enc.pkl"))
 
-
-if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-path", required=True)
     parser.add_argument("--output-directory", required=True)
     args = parser.parse_args()
 
-    main(args.input_path, args.output_directory)
+    df = read_data(args.input_path)
+    (features, target), enc = prepare_data(df)
+    train, valid, test = split_data(features, target)
+    serialize_object(train, os.path.join(args.output_directory, "train.pkl"))
+    serialize_object(valid, os.path.join(args.output_directory, "valid.pkl"))
+    serialize_object(test, os.path.join(args.output_directory, "test.pkl"))
+    serialize_object(enc, os.path.join(args.output_directory, "enc.pkl"))
+
+
+if __name__ == "__main__":
+    main()
