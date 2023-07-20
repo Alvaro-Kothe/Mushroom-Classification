@@ -1,12 +1,13 @@
 import argparse
-from typing import Tuple
 import os.path
+from typing import Tuple
 
 import pandas as pd
 from numpy import ndarray
 from prefect import flow, task
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder
+
 from src.utils import serialize_object
 
 
