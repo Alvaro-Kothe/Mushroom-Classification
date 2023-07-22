@@ -5,13 +5,19 @@ import mlflow
 import optuna
 from dotenv import load_dotenv
 from optuna.samplers import TPESampler
+from prefect import task
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss
 from xgboost import XGBClassifier
 
 from src.utils import load_pickle
 
+load_dotenv()
+EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME", "mushroom-classification")
+MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000")
 
+
+@task
 def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
     mlflow.sklearn.autolog()
 
@@ -37,6 +43,7 @@ def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
     study.optimize(objective, n_trials=num_trials)
 
 
+@task
 def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
     mlflow.xgboost.autolog()
 
@@ -63,7 +70,6 @@ def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
 
 
 def main():
-    load_dotenv()
     parser = argparse.ArgumentParser()
     parser.add_argument("--train-data", required=True)
     parser.add_argument("--val-data")
@@ -79,11 +85,11 @@ def main():
 
     num_trials = args.num_trials or os.getenv("NUM_TRIALS") or 10
 
-    mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"))
-    mlflow.set_experiment(os.getenv("EXPERIMENT_NAME", "mushroom-classification"))
+    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+    mlflow.set_experiment(EXPERIMENT_NAME)
 
-    optimize_logistic(X_train, y_train, X_val, y_val, num_trials)
-    optimize_xgboost(X_train, y_train, X_val, y_val, num_trials)
+    optimize_logistic.fn(X_train, y_train, X_val, y_val, num_trials)
+    optimize_xgboost.fn(X_train, y_train, X_val, y_val, num_trials)
 
 
 if __name__ == "__main__":

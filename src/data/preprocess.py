@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pandas as pd
 from numpy import ndarray
-from prefect import flow, task
+from prefect import task
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder
 
@@ -39,7 +39,6 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
     return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
 
 
-@flow(name="Preprocess data")
 def main():
     """
     Read Dataset and generates 4 files in `output_directory`:
@@ -54,9 +53,9 @@ def main():
     parser.add_argument("--output-directory", required=True)
     args = parser.parse_args()
 
-    df = read_data(args.input_path)
-    (features, target), enc = prepare_data(df)
-    train, valid, test = split_data(features, target)
+    df = read_data.fn(args.input_path)
+    (features, target), enc = prepare_data.fn(df)
+    train, valid, test = split_data.fn(features, target)
     serialize_object(train, os.path.join(args.output_directory, "train.pkl"))
     serialize_object(valid, os.path.join(args.output_directory, "valid.pkl"))
     serialize_object(test, os.path.join(args.output_directory, "test.pkl"))
