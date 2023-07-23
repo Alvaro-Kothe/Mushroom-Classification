@@ -10,10 +10,12 @@ from src.env import EXPERIMENT_NAME, MLFLOW_TRACKING_URI, TOP_N
 from src.utils import load_pickle
 
 
-def log_acc_test(X_test, y_test, logged_model):
+def log_acc_test(X_test, y_test, run_id):
+    """Load model and log test accuracy in the run."""
+    logged_model = f"runs:/{run_id}/model"
     loaded_model = mlflow.pyfunc.load_model(logged_model)
-    with mlflow.start_run():
-        test_accuracy = accuracy_score(y_test, loaded_model.predict(X_test))
+    test_accuracy = accuracy_score(y_test, loaded_model.predict(X_test))
+    with mlflow.start_run(run_id=run_id):
         mlflow.log_metric("test_accuracy", test_accuracy)
 
 
@@ -30,8 +32,7 @@ def register_best_model(X_test, y_test, top_n: int):
         order_by=["metrics.log_loss ASC"],
     )
     for run in runs:
-        model_uri = f"runs:/{run.info.run_id}/model"
-        log_acc_test(X_test, y_test, model_uri)
+        log_acc_test(X_test, y_test, run.info.run_id)
 
     experiment = client.get_experiment_by_name(EXPERIMENT_NAME)
     best_run = client.search_runs(
