@@ -163,3 +163,5 @@ binaries/
 .vscode/
 mlartifacts/
 mlruns/
+artifacts/
+mlflow.db

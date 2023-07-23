@@ -2,6 +2,7 @@ import argparse
 import os
 
 import mlflow
+from dotenv import load_dotenv
 from mlflow import MlflowClient
 from mlflow.entities import ViewType
 from prefect import task
@@ -9,6 +10,10 @@ from sklearn.metrics import accuracy_score
 
 from src.models.hpo import EXPERIMENT_NAME, MLFLOW_TRACKING_URI
 from src.utils import load_pickle
+
+load_dotenv()
+
+TOP_N = os.getenv("TOP_N") or 5
 
 
 def log_acc_test(X_test, y_test, logged_model):
@@ -51,7 +56,7 @@ def main():
     args = parser.parse_args()
 
     X_test, y_test = load_pickle(args.input_data)
-    top_n = args.top_n or os.getenv("TOP_N") or 5
+    top_n = args.top_n or TOP_N
 
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)

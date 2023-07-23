@@ -15,6 +15,7 @@ from src.utils import load_pickle
 load_dotenv()
 EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME", "mushroom-classification")
 MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000")
+NUM_TRIALS = os.getenv("NUM_TRIALS") or 10
 
 
 @task
@@ -40,7 +41,7 @@ def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
 
     sampler = TPESampler(seed=42)
     study = optuna.create_study(direction="minimize", sampler=sampler)
-    study.optimize(objective, n_trials=num_trials)
+    study.optimize(objective, n_trials=num_trials, gc_after_trial=True)
 
 
 @task
@@ -66,7 +67,7 @@ def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
 
     sampler = TPESampler(seed=42)
     study = optuna.create_study(direction="minimize", sampler=sampler)
-    study.optimize(objective, n_trials=num_trials)
+    study.optimize(objective, n_trials=num_trials, gc_after_trial=True)
 
 
 def main():
@@ -83,7 +84,7 @@ def main():
     else:
         X_val, y_val = load_pickle(args.val_data)
 
-    num_trials = args.num_trials or os.getenv("NUM_TRIALS") or 10
+    num_trials = args.num_trials or NUM_TRIALS
 
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)
