@@ -1,21 +1,15 @@
 import argparse
-import os
 
 import mlflow
 import optuna
-from dotenv import load_dotenv
 from optuna.samplers import TPESampler
 from prefect import task
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import log_loss
 from xgboost import XGBClassifier
 
+from src.env import EXPERIMENT_NAME, MLFLOW_TRACKING_URI, NUM_TRIALS
 from src.utils import load_pickle
-
-load_dotenv()
-EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME", "mushroom-classification")
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000")
-NUM_TRIALS = os.getenv("NUM_TRIALS") or 10
 
 
 @task

@@ -1,19 +1,13 @@
 import argparse
-import os
 
 import mlflow
-from dotenv import load_dotenv
 from mlflow import MlflowClient
 from mlflow.entities import ViewType
 from prefect import task
 from sklearn.metrics import accuracy_score
 
-from src.models.hpo import EXPERIMENT_NAME, MLFLOW_TRACKING_URI
+from src.env import EXPERIMENT_NAME, MLFLOW_TRACKING_URI, TOP_N
 from src.utils import load_pickle
-
-load_dotenv()
-
-TOP_N = os.getenv("TOP_N") or 5
 
 
 def log_acc_test(X_test, y_test, logged_model):
