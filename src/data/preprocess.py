@@ -39,6 +39,10 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
     return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
 
 
+def transform(enc, df):
+    return enc.transform(df)
+
+
 def main():
     """
     Read Dataset and generates 4 files in `output_directory`:

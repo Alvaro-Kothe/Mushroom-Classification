@@ -15,6 +15,8 @@ prefect = "^2.10.21"
 optuna = "^3.2.0"
 mlflow = "^2.5.0"
 python-dotenv = "^1.0.0"
+fastapi = "^0.100.0"
+uvicorn = "^0.23.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -36,7 +38,8 @@ confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFIN
 disable = ["raw-checker-failed", "bad-inline-option", "locally-disabled", "file-ignored",
     "suppressed-message", "useless-suppression", "deprecated-pragma",
     "use-symbolic-message-instead", "missing-module-docstring",
-    "missing-function-docstring", "invalid-name"]
+    "missing-function-docstring", "invalid-name",
+    "no-name-in-module", "missing-class-docstring", "too-few-public-methods"]
 
 
 [tool.isort]
