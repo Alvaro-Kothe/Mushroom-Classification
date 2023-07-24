@@ -4,7 +4,7 @@ ifneq (,$(wildcard ./.env))
 endif
 
 POETRY = poetry
-${MODELS_PATH} ?= models
+MODELS_PATH ?= models
 
 BINARIES_NAMES := $(addsuffix .pkl,train valid test enc)
 preprocess_binaries := $(addprefix $(MODELS_PATH)/,$(BINARIES_NAMES))
@@ -26,3 +26,6 @@ $(preprocess_binaries) &: src/data/preprocess.py
 
 setup:
 	$(POETRY) install --no-dev
+
+build:
+	docker build -t mushroom-classification .
