@@ -1,21 +1,7 @@
-import mlflow
-import mlflow.pyfunc
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from src.env import ENCODER_PATH, EXPERIMENT_NAME, MLFLOW_TRACKING_URI
-from src.utils import load_pickle
-
-
-def get_model():
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    model_uri = f"models:/{EXPERIMENT_NAME}/latest"
-    loaded_model = mlflow.pyfunc.load_model(model_uri)
-    return loaded_model
-
-
-def get_encoder():
-    return load_pickle(ENCODER_PATH)
+from src.models import get_encoder, get_model
 
 
 def prepare_features(features: dict):

@@ -6,7 +6,7 @@ RUN pip install poetry && poetry install --no-root --no-directory
 COPY src/ ./src
 RUN poetry install --no-dev
 
-COPY main.py models/enc.pkl .
+COPY main.py models/enc.pkl models/model.pkl .
 
 EXPOSE 8000
 
