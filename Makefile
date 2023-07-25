@@ -9,7 +9,9 @@ MODELS_PATH ?= models
 BINARIES_NAMES := $(addsuffix .pkl,train valid test enc)
 preprocess_binaries := $(addprefix $(MODELS_PATH)/,$(BINARIES_NAMES))
 
-.PHONY: data train register
+.PHONY: data train register all
+
+all: build
 
 data: $(preprocess_binaries)
 
