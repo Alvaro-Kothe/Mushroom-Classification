@@ -1,6 +1,12 @@
 import mlflow
 
-from src.env import ENCODER_PATH, EXPERIMENT_NAME, LOCAL_MODEL_PATH, MLFLOW_TRACKING_URI
+from src.env import (
+    ENCODER_PATH,
+    EXPERIMENT_NAME,
+    LOCAL_MODEL_PATH,
+    MLFLOW_TRACKING_URI,
+    USE_MLFLOW,
+)
 from src.utils import load_pickle
 
 
@@ -16,10 +22,9 @@ def get_model_local():
 
 
 def get_model():
-    try:
+    if USE_MLFLOW:
         return get_model_from_registry()
-    except mlflow.MlflowException:
-        return get_model_local()
+    return get_model_local()
 
 
 def get_encoder():

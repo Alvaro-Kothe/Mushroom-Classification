@@ -10,3 +10,4 @@ MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000")
 NUM_TRIALS = int(os.getenv("NUM_TRIALS") or 10)
 ENCODER_PATH = os.getenv("ENCODER_PATH") or "./enc.pkl"
 LOCAL_MODEL_PATH = os.getenv("LOCAL_MODEL_PATH") or "./model.pkl"
+USE_MLFLOW = os.getenv("USE_MLFLOW", "false").lower() in ("true", "t", "1")
