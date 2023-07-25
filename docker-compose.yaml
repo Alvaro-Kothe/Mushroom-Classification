@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  prediction:
+    build:
+      dockerfile: Dockerfile
+    environment:
+      - EXPERIMENT_NAME
+      - USE_MLFLOW
+      - MLFLOW_TRACKING_URI
+      - ENCODER_PATH
+    ports:
+      - 8000:8000

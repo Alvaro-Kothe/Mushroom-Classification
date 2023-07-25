@@ -4,6 +4,7 @@
 
 [Kaggle](https://www.kaggle.com/datasets/uciml/mushroom-classification)
 
+
 ## Tools used
 
 - Poetry
@@ -15,33 +16,10 @@
 - pre-commit
 - FastAPI
 - AWS
+- Docker
 
 ## Pre-requisites
 
-### Install dependencies
-
-Activate environment:
-```bash
-# if using poetry
-$ poetry shell
-
-# if using venv
-$ source venv/bin/activate
-```
-
-- Install with poetry:
-
-    ```bash
-    poetry install
-    ```
-- Install with pip
-
-    Activate the environment
-    and run:
-
-    ```bash
-    pip install .
-    ```
 
 ### Credentials
 
@@ -53,32 +31,33 @@ cp .env.example .env
 ```
 And change the default values to your needs.
 
-## Run locally
+## Build Docker Image
 
+It is possible to build the image with `docker compose` or `docker build`
 
-Set prefect api to local:
-```bash
-$ prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
-```
-Start prefect server:
-```bash
-$ prefect server start
-```
+### Docker Compose
 
-Start mlflow server in another window (also reactivate the python environment):
+To build and run the image run
+
 ```bash
-$ mlflow server --backend-store-uri sqlite:///mlflow.db
+$ docker compose up
 ```
 
-Train model:
+### Docker Build
+
+To build the Docker Image run
+
 ```bash
-$ python src/train.py -i data/mushrooms.csv
+make build
 ```
 
-Start web-service:
+To launch the application run
+
 ```bash
-$ uvicorn main:app --reload
+docker run -it --rm -p 8000:8000 mushroom-classification
 ```
+
+## Using the API
 
 The application works on POST requests, to send a request with CURL:
 
@@ -112,7 +91,62 @@ $ curl -X 'POST' \
   "habitat": "g"
 }
 '
+```
 
+The response object is a json object with the probability of the mushroom be poisonous,
+the response for the object above is
+
+```bash
 {"poisonous-probability":0.0}
+```
 
+## Build locally
+
+
+Activate environment:
+```bash
+# if using poetry
+$ poetry shell
+
+# if using venv
+$ source venv/bin/activate
+```
+
+- Install with poetry:
+
+    ```bash
+    poetry install
+    ```
+- Install with pip
+
+    Activate the environment
+    and run:
+
+    ```bash
+    pip install .
+    ```
+
+
+Set prefect api to local:
+```bash
+$ prefect config set PREFECT_API_URL="http://127.0.0.1:4200/api"
+```
+Start prefect server:
+```bash
+$ prefect server start
+```
+
+Start mlflow server in another window (also reactivate the python environment):
+```bash
+$ mlflow server --backend-store-uri sqlite:///mlflow.db
+```
+
+Train model:
+```bash
+$ python src/train.py -i data/mushrooms.csv
+```
+
+Start web-service:
+```bash
+$ uvicorn main:app --reload
 ```
