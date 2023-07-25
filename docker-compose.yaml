@@ -8,6 +8,7 @@ services:
       - EXPERIMENT_NAME
       - USE_MLFLOW
       - MLFLOW_TRACKING_URI
-      - ENCODER_PATH
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
     ports:
       - 8000:8000
