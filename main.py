@@ -17,6 +17,8 @@ def prepare_features(features: dict):
 
 app = FastAPI()
 
+model = get_model()
+
 
 @app.get("/")
 async def root():
@@ -51,8 +53,6 @@ class Mushroom(BaseModel):
 @app.post("/predict", status_code=200)
 def get_prediction(mushroom: Mushroom):
     features = prepare_features(mushroom.dict())
-
-    model = get_model()
 
     pred = model.predict(features)[0]
 

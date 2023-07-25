@@ -14,8 +14,20 @@
 - dotenv
 - pre-commit
 - FastAPI
+- AWS
 
-## Install dependencies
+## Pre-requisites
+
+### Install dependencies
+
+Activate environment:
+```bash
+# if using poetry
+$ poetry shell
+
+# if using venv
+$ source venv/bin/activate
+```
 
 - Install with poetry:
 
@@ -31,16 +43,18 @@
     pip install .
     ```
 
+### Credentials
+
+To change the default behaviour or use a cloud server,
+copy `.env.example` to `.env` with
+
+```bash
+cp .env.example .env
+```
+And change the default values to your needs.
+
 ## Run locally
 
-Activate environment:
-```bash
-# if using poetry
-$ poetry shell
-
-# if using venv
-$ source venv/bin/activate
-```
 
 Set prefect api to local:
 ```bash
