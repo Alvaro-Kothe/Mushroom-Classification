@@ -23,7 +23,7 @@ def prepare_data(df: pd.DataFrame) -> Tuple[Tuple[ndarray, ndarray], OrdinalEnco
     """
     y = (df.pop("class") == "p").to_numpy()
     enc = OrdinalEncoder()
-    X = enc.fit_transform(df)
+    X = enc.fit_transform(df.to_numpy())
     return (X, y), enc
 
 
@@ -37,10 +37,6 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
     )
 
     return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
-
-
-def transform(enc, df):
-    return enc.transform(df)
 
 
 def main():
