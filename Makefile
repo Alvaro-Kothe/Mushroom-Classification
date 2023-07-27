@@ -31,3 +31,10 @@ setup:
 
 build:
 	docker build -t mushroom-classification .
+
+lint:
+	pylint --recursive=y src/
+
+format:
+	isort src/
+	black src/
