@@ -1,19 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from src.models import get_encoder, get_model
-
-
-def prepare_features(features: dict):
-    # replace underscore with hyphen
-    # new_dict = {
-    #         str(k).replace('_', '-'): v for
-    #         k, v in features.items()
-    #         }
-    enc = get_encoder()
-    # print(new_dict)
-    return enc.transform([list(features.values())])
-
+from src.models import get_model
+from src.prediction import prepare_features
 
 app = FastAPI()
 

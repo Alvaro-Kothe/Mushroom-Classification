@@ -9,7 +9,7 @@ MODELS_PATH ?= models
 BINARIES_NAMES := $(addsuffix .pkl,train valid test enc)
 preprocess_binaries := $(addprefix $(MODELS_PATH)/,$(BINARIES_NAMES))
 
-.PHONY: data train register all
+.PHONY: data train register all setup build lint format tests
 
 all: build
 
@@ -38,3 +38,6 @@ lint:
 format:
 	isort src/
 	black src/
+
+tests:
+	pytest tests/
