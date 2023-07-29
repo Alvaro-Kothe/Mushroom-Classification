@@ -39,6 +39,8 @@ class Mushroom(BaseModel):
     habitat: str
 
 
+nagjiorniognajongjoawnjo()
+
 @app.post("/predict", status_code=200)
 def get_prediction(mushroom: Mushroom):
     features = prepare_features(mushroom.dict())
