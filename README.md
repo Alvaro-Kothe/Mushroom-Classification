@@ -175,8 +175,8 @@ uvicorn main:app --reload
 - [ ] Add a monitoring service
 - [ ] Create a Frontend for the API
 - [ ] Implement IaC
-- [ ] Use CI/CD
-- [ ] Create tests
+- [x] Use CI/CD
+- [x] Create tests
 
 ## Disclaimer
 
