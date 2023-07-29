@@ -7,6 +7,9 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      ENCODER_PATH: models/enc.pkl
+      LOCAL_MODEL_PATH: models/model.pkl
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
