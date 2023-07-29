@@ -31,6 +31,6 @@ jobs:
       - name: Install the project dependencies
         run: poetry install
       - name: Run automated tests
-        run: poetry run pytest -v
+        run: poetry run pytest
       - name: Lint
         run: poetry run pylint --recursive=y src/ main.py
