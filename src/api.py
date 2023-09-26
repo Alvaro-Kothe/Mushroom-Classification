@@ -1,42 +1,22 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from src.models import get_model
+from src.mushroom import MUSHROOM_CHARACTERISTICS, Mushroom
 from src.prediction import prepare_features
 
 app = FastAPI()
 
+templates = Jinja2Templates(directory="templates")
+
 model = get_model()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-class Mushroom(BaseModel):
-    cap_shape: str
-    cap_surface: str
-    cap_color: str
-    bruises: str
-    odor: str
-    gill_attachment: str
-    gill_spacing: str
-    gill_size: str
-    gill_color: str
-    stalk_shape: str
-    stalk_root: str
-    stalk_surface_above_ring: str
-    stalk_surface_below_ring: str
-    stalk_color_above_ring: str
-    stalk_color_below_ring: str
-    veil_type: str
-    veil_color: str
-    ring_number: str
-    ring_type: str
-    spore_print_color: str
-    population: str
-    habitat: str
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    context = {"request": request, "characteristics": MUSHROOM_CHARACTERISTICS}
+    return templates.TemplateResponse("index.html", context)
 
 
 @app.post("/predict", status_code=200)

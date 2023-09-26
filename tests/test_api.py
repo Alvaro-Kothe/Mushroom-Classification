@@ -3,6 +3,13 @@ from fastapi.testclient import TestClient
 from src.api import app
 
 
+def test_homepage():
+    client = TestClient(app)
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.template.name == "index.html"
+
+
 def test_api():
     client = TestClient(app)
 
