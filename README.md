@@ -167,7 +167,7 @@ python src/train.py -i data/mushrooms.csv
 Start web-service:
 
 ```bash
-uvicorn main:app --reload
+uvicorn src.api:app --reload
 ```
 
 ## Further improvements
