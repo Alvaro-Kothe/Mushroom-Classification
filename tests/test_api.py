@@ -32,7 +32,7 @@ def test_predict():
         "veil_type": "p",
         "veil_color": "n",
         "ring_number": "n",
-        "ring_type": "c",
+        "ring_type": "p",
         "spore_print_color": "k",
         "population": "a",
         "habitat": "g",

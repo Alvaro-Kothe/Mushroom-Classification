@@ -36,11 +36,9 @@ MUSHROOM_CHARACTERISTICS = {
     },
     "gill_attachment": {
         "attached": "a",
-        "descending": "d",
         "free": "f",
-        "notched": "n",
     },
-    "gill_spacing": {"close": "c", "crowded": "w", "distant": "d"},
+    "gill_spacing": {"close": "c", "crowded": "w"},
     "gill_size": {"broad": "b", "narrow": "n"},
     "gill_color": {
         "black": "k",
@@ -60,9 +58,7 @@ MUSHROOM_CHARACTERISTICS = {
     "stalk_root": {
         "bulbous": "b",
         "club": "c",
-        "cup": "u",
         "equal": "e",
-        "rhizomorphs": "z",
         "rooted": "r",
         "missing": "?",
     },
@@ -100,18 +96,15 @@ MUSHROOM_CHARACTERISTICS = {
         "white": "w",
         "yellow": "y",
     },
-    "veil_type": {"partial": "p", "universal": "u"},
+    "veil_type": {"partial": "p"},
     "veil_color": {"brown": "n", "orange": "o", "white": "w", "yellow": "y"},
     "ring_number": {"none": "n", "one": "o", "two": "t"},
     "ring_type": {
-        "cobwebby": "c",
         "evanescent": "e",
         "flaring": "f",
         "large": "l",
         "none": "n",
         "pendant": "p",
-        "sheathing": "s",
-        "zone": "z",
     },
     "spore_print_color": {
         "black": "k",
