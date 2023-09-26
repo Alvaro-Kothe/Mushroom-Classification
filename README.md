@@ -27,6 +27,7 @@ Each species is identified as definitely edible, definitely poisonous, or of unk
 - pre-commit — pre-commit hooks
 - AWS — Cloud service
 - Docker — Containerization
+- htmx - Better html interactivity.
 
 ## Pre-requisites
 
@@ -73,7 +74,7 @@ The application works on POST requests, to send a request with CURL:
 
 ```bash
 curl -X 'POST' \
-  'http://127.0.0.1:8000/predict' \
+  'http://127.0.0.1:8000/api/predict' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -112,6 +113,10 @@ the response for the object above is
 ```bash
 {"poisonous-probability":0.0}
 ```
+
+You can also navigate to the url <http://127.0.0.1:8000> and select the
+mushroom characteristics.
+![](screenshots/page.png)
 
 ## Build locally
 
@@ -173,7 +178,7 @@ uvicorn src.api:app --reload
 ## Further improvements
 
 - [ ] Add a monitoring service
-- [ ] Create a Frontend for the API
+- [x] Create a Frontend for the API
 - [ ] Implement IaC
 - [x] Use CI/CD
 - [x] Create tests

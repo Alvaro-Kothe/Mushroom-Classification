@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 MUSHROOM_CHARACTERISTICS = {
-    "cap-shape": {
+    "cap_shape": {
         "bell": "b",
         "conical": "c",
         "convex": "x",
@@ -9,8 +9,8 @@ MUSHROOM_CHARACTERISTICS = {
         "knobbed": "k",
         "sunken": "s",
     },
-    "cap-surface": {"fibrous": "f", "grooves": "g", "scaly": "y", "smooth": "s"},
-    "cap-color": {
+    "cap_surface": {"fibrous": "f", "grooves": "g", "scaly": "y", "smooth": "s"},
+    "cap_color": {
         "brown": "n",
         "buff": "b",
         "cinnamon": "c",
@@ -34,15 +34,15 @@ MUSHROOM_CHARACTERISTICS = {
         "pungent": "p",
         "spicy": "s",
     },
-    "gill-attachment": {
+    "gill_attachment": {
         "attached": "a",
         "descending": "d",
         "free": "f",
         "notched": "n",
     },
-    "gill-spacing": {"close": "c", "crowded": "w", "distant": "d"},
-    "gill-size": {"broad": "b", "narrow": "n"},
-    "gill-color": {
+    "gill_spacing": {"close": "c", "crowded": "w", "distant": "d"},
+    "gill_size": {"broad": "b", "narrow": "n"},
+    "gill_color": {
         "black": "k",
         "brown": "n",
         "buff": "b",
@@ -56,8 +56,8 @@ MUSHROOM_CHARACTERISTICS = {
         "white": "w",
         "yellow": "y",
     },
-    "stalk-shape": {"enlarging": "e", "tapering": "t"},
-    "stalk-root": {
+    "stalk_shape": {"enlarging": "e", "tapering": "t"},
+    "stalk_root": {
         "bulbous": "b",
         "club": "c",
         "cup": "u",
@@ -66,19 +66,19 @@ MUSHROOM_CHARACTERISTICS = {
         "rooted": "r",
         "missing": "?",
     },
-    "stalk-surface-above-ring": {
+    "stalk_surface_above_ring": {
         "fibrous": "f",
         "scaly": "y",
         "silky": "k",
         "smooth": "s",
     },
-    "stalk-surface-below-ring": {
+    "stalk_surface_below_ring": {
         "fibrous": "f",
         "scaly": "y",
         "silky": "k",
         "smooth": "s",
     },
-    "stalk-color-above-ring": {
+    "stalk_color_above_ring": {
         "brown": "n",
         "buff": "b",
         "cinnamon": "c",
@@ -89,7 +89,7 @@ MUSHROOM_CHARACTERISTICS = {
         "white": "w",
         "yellow": "y",
     },
-    "stalk-color-below-ring": {
+    "stalk_color_below_ring": {
         "brown": "n",
         "buff": "b",
         "cinnamon": "c",
@@ -100,10 +100,10 @@ MUSHROOM_CHARACTERISTICS = {
         "white": "w",
         "yellow": "y",
     },
-    "veil-type": {"partial": "p", "universal": "u"},
-    "veil-color": {"brown": "n", "orange": "o", "white": "w", "yellow": "y"},
-    "ring-number": {"none": "n", "one": "o", "two": "t"},
-    "ring-type": {
+    "veil_type": {"partial": "p", "universal": "u"},
+    "veil_color": {"brown": "n", "orange": "o", "white": "w", "yellow": "y"},
+    "ring_number": {"none": "n", "one": "o", "two": "t"},
+    "ring_type": {
         "cobwebby": "c",
         "evanescent": "e",
         "flaring": "f",
@@ -113,7 +113,7 @@ MUSHROOM_CHARACTERISTICS = {
         "sheathing": "s",
         "zone": "z",
     },
-    "spore-print-color": {
+    "spore_print_color": {
         "black": "k",
         "brown": "n",
         "buff": "b",
