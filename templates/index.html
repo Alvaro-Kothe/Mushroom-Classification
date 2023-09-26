@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Mushroom Classification</title>
+        <!-- Include htmx library -->
+        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+    </head>
+    <body>
+    <div>
+        <h1>Mushroom Characteristics</h1>
+        <form hx-post="/predict" hx-trigger="submit">
+            <ul>
+                {% for characteristic, aspects in characteristics.items() %}
+                    <li>
+                        {{ characteristic }}:
+                        <select name="{{ characteristic }}">
+                            {% for aspect, code in aspects.items() %}
+                            <option value="{{ code }}">{{ aspect }}</option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                {% endfor %}
+            </ul>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
