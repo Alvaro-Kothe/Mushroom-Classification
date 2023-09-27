@@ -166,7 +166,7 @@ mlflow server --backend-store-uri sqlite:///mlflow.db
 Train model:
 
 ```bash
-python src/train.py -i data/mushrooms.csv
+python src/train.py --input-path data/mushrooms.csv
 ```
 
 Start web-service:
