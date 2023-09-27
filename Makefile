@@ -4,6 +4,7 @@ ifneq (,$(wildcard ./.env))
 endif
 
 POETRY = poetry
+DOCKER = docker
 MODELS_PATH ?= models
 
 BINARIES_NAMES := $(addsuffix .pkl,train valid test enc)
@@ -30,7 +31,7 @@ setup:
 	$(POETRY) install --no-dev
 
 build:
-	docker build -t mushroom-classification .
+	$(DOCKER) build -t mushroom-classification .
 
 lint:
 	pylint --recursive=y src/
