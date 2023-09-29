@@ -6,6 +6,7 @@ endif
 POETRY = poetry
 DOCKER = docker
 MODELS_PATH ?= models
+PYTHON_FILES = $(shell git ls-files '*.py')
 
 BINARIES_NAMES := $(addsuffix .pkl,train valid test enc)
 preprocess_binaries := $(addprefix $(MODELS_PATH)/,$(BINARIES_NAMES))
@@ -34,11 +35,12 @@ build:
 	$(DOCKER) build -t mushroom-classification .
 
 lint:
-	pylint --recursive=y src/
+	pylint $(PYTHON_FILES)
+	ruff check $(PYTHON_FILES)
 
 format:
-	isort src/
-	black src/
+	isort $(PYTHON_FILES)
+	black $(PYTHON_FILES)
 
 tests:
 	pytest tests/

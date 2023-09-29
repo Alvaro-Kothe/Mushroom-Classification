@@ -1,3 +1,4 @@
+# pylint: disable=duplicate-code
 from unittest.mock import Mock, patch
 
 import pytest
