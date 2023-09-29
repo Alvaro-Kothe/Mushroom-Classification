@@ -2,6 +2,7 @@ from typing import Annotated
 
 from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from src.models.utils import get_model
@@ -9,6 +10,8 @@ from src.mushroom import MUSHROOM_CHARACTERISTICS, Mushroom
 from src.prediction.prepare_features import prepare_features
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
 

@@ -118,6 +118,10 @@ You can also navigate to the url <http://127.0.0.1:8000> and select the
 mushroom characteristics.
 ![](screenshots/page.png)
 
+The page has a submit button, which return the probability of the mushroom with
+the given characteristics be poisonous.
+![](screenshots/submission.png)
+
 ## Build locally
 
 Activate environment:
