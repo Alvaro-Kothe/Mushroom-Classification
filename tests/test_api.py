@@ -1,6 +1,20 @@
+from unittest.mock import Mock, patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 from src.api import app
+
+
+class MockModel:
+    def predict(self, _):
+        return [0.5]
+
+
+@pytest.fixture(scope="session", autouse=True)
+def mock_encoder():
+    with patch("src.api.prepare_features", Mock()), patch("src.api.model", MockModel()):
+        yield
 
 
 def test_homepage():
@@ -74,4 +88,4 @@ def test_api():
     assert response.status_code == 200
 
     response_json = response.json()
-    assert 0 <= response_json["poisonous-probability"] <= 1
+    assert response_json["poisonous-probability"] == 0.5
