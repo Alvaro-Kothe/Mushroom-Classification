@@ -1,12 +1,12 @@
-name: Tests
+name: Checks
+
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+  push:
+    branches: [main]
 
 jobs:
-  ci:
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,6 +15,13 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
+      - name: Install pre-commit
+        run: |
+          python -m pip install pre-commit
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Install poetry
         uses: snok/install-poetry@v1
@@ -31,7 +38,7 @@ jobs:
       - name: Install the project dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      - name: Run automated tests
+      - name: Run pre-commit hooks
         run: |
           source .venv/bin/activate
-          pytest tests/
+          pre-commit run --all-files
