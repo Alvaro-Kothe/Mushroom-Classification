@@ -1,6 +1,20 @@
+from unittest.mock import Mock, patch
+
+import pytest
 from fastapi.testclient import TestClient
 
 from src.api import app
+
+
+class MockModel:
+    def predict(self, _):
+        return [1]
+
+
+@pytest.fixture(scope="session", autouse=True)
+def mock_encoder():
+    with patch("src.api.prepare_features", Mock()), patch("src.api.model", MockModel()):
+        yield
 
 
 def test_homepage():

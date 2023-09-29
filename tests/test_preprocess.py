@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from src.prediction import prepare_features
+from src.prediction.prepare_features import prepare_features
 
 
 def test_prepare_features():

@@ -4,9 +4,9 @@ from fastapi import FastAPI, Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from src.models import get_model
+from src.models.utils import get_model
 from src.mushroom import MUSHROOM_CHARACTERISTICS, Mushroom
-from src.prediction import prepare_features
+from src.prediction.prepare_features import prepare_features
 
 app = FastAPI()
 
