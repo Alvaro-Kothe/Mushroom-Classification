@@ -8,7 +8,7 @@ from src.api import app
 
 class MockModel:
     def predict(self, _):
-        return [1]
+        return [0.5]
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -88,4 +88,4 @@ def test_api():
     assert response.status_code == 200
 
     response_json = response.json()
-    assert 0 <= response_json["poisonous-probability"] <= 1
+    assert response_json["poisonous-probability"] == 0.5
