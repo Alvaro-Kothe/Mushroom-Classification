@@ -8,7 +8,7 @@
     <body>
     <div>
         <h1>Mushroom Characteristics</h1>
-        <form hx-post="/predict" hx-trigger="submit">
+        <form hx-post="/predict" hx-trigger="submit" hx-swap="outerHTML">
             <ul>
                 {% for characteristic, aspects in characteristics.items() %}
                     <li>
