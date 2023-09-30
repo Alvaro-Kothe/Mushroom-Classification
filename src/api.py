@@ -24,8 +24,9 @@ async def root(request: Request):
     return templates.TemplateResponse("index.html", context)
 
 
-@app.post("/predict")
+@app.post("/predict", response_class=HTMLResponse)
 def post_predict(
+    request: Request,
     cap_shape: Annotated[str, Form()],
     cap_surface: Annotated[str, Form()],
     cap_color: Annotated[str, Form()],
@@ -79,7 +80,9 @@ def post_predict(
 
     pred = model.predict(features)[0]
 
-    return f"The probability of this mushroom being poisonous is {pred}."
+    context = {"request": request, "pred": pred}
+
+    return templates.TemplateResponse("submit.html", context)
 
 
 @app.post("/api/predict", status_code=200)
