@@ -44,3 +44,7 @@ format:
 
 tests:
 	pytest tests/
+
+coverage:
+	coverage run -m pytest
+	coverage report --show-missing
