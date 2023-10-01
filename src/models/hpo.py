@@ -1,4 +1,5 @@
 import argparse
+from typing import Optional, Sequence
 
 import mlflow
 import optuna
@@ -64,12 +65,12 @@ def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
     study.optimize(objective, n_trials=num_trials, gc_after_trial=True)
 
 
-def main():
+def main(argv: Optional[Sequence[str]] = None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--train-data", required=True)
     parser.add_argument("--val-data")
     parser.add_argument("-n", "--num-trials", type=int)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     X_train, y_train = load_pickle(args.train_data)
 

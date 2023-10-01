@@ -1,6 +1,6 @@
 import argparse
 import os.path
-from typing import Tuple
+from typing import Optional, Sequence, Tuple
 
 import pandas as pd
 from numpy import ndarray
@@ -39,7 +39,7 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
     return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
 
 
-def main():
+def main(argv: Optional[Sequence[str]] = None):
     """
     Read Dataset and generates 4 files in `output_directory`:
     - `train.pkl`: Train data (features, target).
@@ -51,7 +51,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input-path", required=True)
     parser.add_argument("--output-directory", required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     df = read_data.fn(args.input_path)
     (features, target), enc = prepare_data.fn(df)
