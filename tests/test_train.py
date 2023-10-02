@@ -1,9 +1,17 @@
-# pylint: disable=too-many-arguments
-from unittest.mock import patch
+# pylint: disable=too-many-arguments,redefined-outer-name
+from unittest.mock import Mock, patch
 
+import pytest
 from prefect.testing.utilities import prefect_test_harness
 
+from src import train
 from src.train import train_flow
+
+
+@pytest.fixture
+def patched_flow():
+    with patch("src.train.train_flow", Mock()):
+        yield
 
 
 @patch("src.train.read_data")
@@ -49,3 +57,26 @@ def test_train_flow(
     mock_logistic.assert_called_once_with(None, None, None, None, 2)
     mock_xgboost.assert_called_once_with(None, None, None, None, 2)
     mock_tracking.assert_called_once_with("baz")
+
+
+def test_flow_no_encoder():
+    with (
+        prefect_test_harness(),
+        patch("src.train.read_data"),
+        patch("src.train.prepare_data", return_value=((None, None), None)),
+        patch("src.train.ENCODER_PATH", None),
+    ):
+        match = "ENCODER_PATH environment variable is not defined."
+        with pytest.raises(ValueError, match=match):
+            train_flow("foo.csv")
+
+
+def test_main_train(patched_flow):
+    # pylint: disable=unused-argument
+    train.main(["--input-path", "foo"])
+
+
+def test_main_train_invalid_option(patched_flow):
+    # pylint: disable=unused-argument
+    with pytest.raises(SystemExit):
+        train.main(["--invalid-option", "foo"])

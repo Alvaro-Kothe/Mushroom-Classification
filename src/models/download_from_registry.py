@@ -1,4 +1,5 @@
 import argparse
+from typing import Optional, Sequence
 
 import mlflow
 
@@ -7,10 +8,10 @@ from src.models.utils import get_model_from_registry
 from src.utils import serialize_object
 
 
-def main():
+def main(argv: Optional[Sequence[str]] = None):
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 

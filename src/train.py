@@ -1,4 +1,5 @@
 import argparse
+from typing import Optional, Sequence
 
 import mlflow
 from prefect import flow
@@ -35,10 +36,10 @@ def train_flow(data_path):
     register_best_model(*test, TOP_N)
 
 
-def main():
+def main(argv: Optional[Sequence[str]] = None):
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input-path", required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     train_flow(args.input_path)
 
