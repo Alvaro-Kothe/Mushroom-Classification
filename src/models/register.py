@@ -2,7 +2,6 @@ import argparse
 from typing import Optional, Sequence
 
 import mlflow
-from mlflow import MlflowClient
 from mlflow.entities import ViewType
 from prefect import task
 from sklearn.metrics import accuracy_score
@@ -22,7 +21,7 @@ def log_acc_test(X_test, y_test, run_id):
 
 @task
 def register_best_model(X_test, y_test, top_n: int):
-    client = MlflowClient()
+    client = mlflow.MlflowClient()
 
     # Retrieve the top_n model runs and log the models
     experiment = client.get_experiment_by_name(EXPERIMENT_NAME)
