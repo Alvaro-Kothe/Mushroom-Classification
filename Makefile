@@ -36,6 +36,7 @@ build:
 
 lint:
 	ruff check .
+	mypy .
 	pylint $(PYTHON_FILES)
 
 format:

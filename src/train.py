@@ -19,24 +19,24 @@ from src.utils import serialize_object
 
 
 @flow(task_runner=SequentialTaskRunner())
-def train_flow(data_path):
+def train_flow(data_path: str) -> None:
     df = read_data(data_path)
-    (features, target), enc = prepare_data(df)
+    (features, target), enc = prepare_data(df)  # type: ignore
 
     if not ENCODER_PATH:
         raise ValueError("ENCODER_PATH environment variable is not defined.")
     serialize_object(enc, ENCODER_PATH)
 
-    train, valid, test = split_data(features, target)
+    train, valid, test = split_data(features, target)  # type: ignore
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     mlflow.set_experiment(EXPERIMENT_NAME)
 
-    optimize_logistic(*train, *valid, NUM_TRIALS)
-    optimize_xgboost(*train, *valid, NUM_TRIALS)
-    register_best_model(*test, TOP_N)
+    optimize_logistic(*train, *valid, NUM_TRIALS)  # type: ignore
+    optimize_xgboost(*train, *valid, NUM_TRIALS)  # type: ignore
+    register_best_model(*test, TOP_N)  # type: ignore
 
 
-def main(argv: Optional[Sequence[str]] = None):
+def main(argv: Optional[Sequence[str]] = None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input-path", required=True)
     args = parser.parse_args(argv)

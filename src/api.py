@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, Response
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -19,7 +19,7 @@ model = get_model()
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
+async def root(request: Request) -> Response:
     context = {"request": request, "characteristics": MUSHROOM_CHARACTERISTICS}
     return templates.TemplateResponse("index.html", context)
 
@@ -49,7 +49,7 @@ def post_predict(
     spore_print_color: Annotated[str, Form()],
     population: Annotated[str, Form()],
     habitat: Annotated[str, Form()],
-):
+) -> Response:
     # pylint: disable=too-many-arguments,too-many-locals
     feature_dict = {
         "cap_shape": cap_shape,
@@ -86,7 +86,7 @@ def post_predict(
 
 
 @app.post("/api/predict", status_code=200)
-def get_prediction(mushroom: Mushroom):
+def get_prediction(mushroom: Mushroom) -> dict[str, float]:
     features = prepare_features(mushroom.dict())
 
     pred = model.predict(features)[0]

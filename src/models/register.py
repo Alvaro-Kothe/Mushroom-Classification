@@ -7,10 +7,11 @@ from prefect import task
 from sklearn.metrics import accuracy_score
 
 from src.env import EXPERIMENT_NAME, MLFLOW_TRACKING_URI, TOP_N
+from src.typing import Tensor
 from src.utils import load_pickle
 
 
-def log_acc_test(X_test, y_test, run_id):
+def log_acc_test(X_test: Tensor, y_test: Tensor, run_id: str) -> None:
     """Load model and log test accuracy in the run."""
     logged_model = f"runs:/{run_id}/model"
     loaded_model = mlflow.pyfunc.load_model(logged_model)
@@ -20,7 +21,7 @@ def log_acc_test(X_test, y_test, run_id):
 
 
 @task
-def register_best_model(X_test, y_test, top_n: int):
+def register_best_model(X_test: Tensor, y_test: Tensor, top_n: int) -> None:
     client = mlflow.MlflowClient()
 
     # Retrieve the top_n model runs and log the models
@@ -44,7 +45,7 @@ def register_best_model(X_test, y_test, top_n: int):
     mlflow.register_model(model_uri=model_uri, name=EXPERIMENT_NAME)
 
 
-def main(argv: Optional[Sequence[str]] = None):
+def main(argv: Optional[Sequence[str]] = None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--input-data", required=True)
     parser.add_argument("-n", "--top-n", type=int)
