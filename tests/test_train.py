@@ -1,5 +1,5 @@
-# pylint: disable=too-many-arguments,redefined-outer-name
-from unittest.mock import Mock, patch
+# pylint: disable=too-many-arguments
+from unittest.mock import patch
 
 import pytest
 from prefect.testing.utilities import prefect_test_harness
@@ -8,9 +8,9 @@ from src import train
 from src.train import train_flow
 
 
-@pytest.fixture
-def patched_flow():
-    with patch("src.train.train_flow", Mock()):
+@pytest.fixture(name="patched_flow")
+def setup_mock_train_flow():
+    with patch.object(train, "train_flow"):
         yield
 
 
