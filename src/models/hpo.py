@@ -1,7 +1,9 @@
 import argparse
-from typing import Optional, Sequence
+from typing import Optional, Sequence, TypeVar
 
 import mlflow
+import numpy as np
+import numpy.typing as npt
 import optuna
 from optuna.samplers import TPESampler
 from prefect import task
@@ -12,12 +14,20 @@ from xgboost import XGBClassifier
 from src.env import EXPERIMENT_NAME, MLFLOW_TRACKING_URI, NUM_TRIALS
 from src.utils import load_pickle
 
+T1 = TypeVar("T1", bound=np.generic)
+
 
 @task
-def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
+def optimize_logistic(
+    X_train: npt.NDArray[T1],
+    y_train: npt.NDArray[T1],
+    X_val: npt.NDArray[T1],
+    y_val: npt.NDArray[T1],
+    num_trials: int,
+) -> None:
     mlflow.sklearn.autolog()
 
-    def objective(trial: optuna.Trial):
+    def objective(trial: optuna.Trial) -> float:
         with mlflow.start_run():
             params = {
                 "C": trial.suggest_float("C", 1e-2, 1, log=True),
@@ -29,6 +39,7 @@ def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
             lr.fit(X_train, y_train)
             y_pred = lr.predict(X_val)
             metric_log_loss = log_loss(y_val, y_pred)
+            assert isinstance(metric_log_loss, float)
 
             mlflow.log_metric("log_loss", metric_log_loss)
 
@@ -40,10 +51,16 @@ def optimize_logistic(X_train, y_train, X_val, y_val, num_trials):
 
 
 @task
-def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
+def optimize_xgboost(
+    X_train: npt.NDArray[T1],
+    y_train: npt.NDArray[T1],
+    X_val: npt.NDArray[T1],
+    y_val: npt.NDArray[T1],
+    num_trials: int,
+) -> None:
     mlflow.xgboost.autolog()
 
-    def objective(trial: optuna.Trial):
+    def objective(trial: optuna.Trial) -> float:
         with mlflow.start_run():
             params = {
                 "objective": "binary:logistic",
@@ -55,6 +72,7 @@ def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
             clf.fit(X_train, y_train)
             y_pred = clf.predict(X_val)
             metric_log_loss = log_loss(y_val, y_pred)
+            assert isinstance(metric_log_loss, float)
 
             mlflow.log_metric("log_loss", metric_log_loss)
 
@@ -65,7 +83,7 @@ def optimize_xgboost(X_train, y_train, X_val, y_val, num_trials):
     study.optimize(objective, n_trials=num_trials, gc_after_trial=True)
 
 
-def main(argv: Optional[Sequence[str]] = None):
+def main(argv: Optional[Sequence[str]] = None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--train-data", required=True)
     parser.add_argument("--val-data")

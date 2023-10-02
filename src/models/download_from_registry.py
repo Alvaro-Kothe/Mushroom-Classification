@@ -8,7 +8,7 @@ from src.models.utils import get_model_from_registry
 from src.utils import serialize_object
 
 
-def main(argv: Optional[Sequence[str]] = None):
+def main(argv: Optional[Sequence[str]] = None) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output")
     args = parser.parse_args(argv)

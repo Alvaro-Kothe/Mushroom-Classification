@@ -35,12 +35,13 @@ build:
 	$(DOCKER) build -t mushroom-classification .
 
 lint:
+	ruff check .
+	mypy .
 	pylint $(PYTHON_FILES)
-	ruff check $(PYTHON_FILES)
 
 format:
-	isort $(PYTHON_FILES)
-	black $(PYTHON_FILES)
+	isort .
+	black .
 
 tests:
 	pytest tests/

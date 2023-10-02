@@ -1,13 +1,13 @@
 import argparse
 import os.path
-from typing import Optional, Sequence, Tuple
+from typing import Any, Optional, Sequence, Tuple
 
 import pandas as pd
-from numpy import ndarray
 from prefect import task
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder
 
+from src.typing import Tensor
 from src.utils import serialize_object
 
 
@@ -17,7 +17,9 @@ def read_data(filepath: str) -> pd.DataFrame:
 
 
 @task
-def prepare_data(df: pd.DataFrame) -> Tuple[Tuple[ndarray, ndarray], OrdinalEncoder]:
+def prepare_data(
+    df: pd.DataFrame,
+) -> Tuple[Tuple[Tensor, Tensor], OrdinalEncoder]:
     """
     Separate Dataframe in features and target, where target is if mushroom is poisonous.
     """
@@ -28,7 +30,9 @@ def prepare_data(df: pd.DataFrame) -> Tuple[Tuple[ndarray, ndarray], OrdinalEnco
 
 
 @task
-def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
+def split_data(
+    X: Tensor, y: Tensor, test_size: float = 0.2
+) -> tuple[tuple[Any, Any], tuple[Any, Any], tuple[Any, Any]]:
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_size, random_state=505
     )
@@ -39,7 +43,7 @@ def split_data(X: ndarray, y: ndarray, test_size: float = 0.2):
     return (X_train, y_train), (X_valid, y_valid), (X_test, y_test)
 
 
-def main(argv: Optional[Sequence[str]] = None):
+def main(argv: Optional[Sequence[str]] = None) -> None:
     """
     Read Dataset and generates 4 files in `output_directory`:
     - `train.pkl`: Train data (features, target).
