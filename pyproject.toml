@@ -3,7 +3,7 @@ name = "mlops-zoomcamp-project"
 version = "0.3.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
-packages = [{include = "src"}]
+packages = [{ include = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.13"
@@ -43,13 +43,30 @@ build-backend = "poetry.core.masonry.api"
 [tool.pylint."messages control"]
 # Only show warnings with the listed confidence levels. Leave empty to show all.
 # Valid levels: HIGH, CONTROL_FLOW, INFERENCE, INFERENCE_FAILURE, UNDEFINED.
-confidence = ["HIGH", "CONTROL_FLOW", "INFERENCE", "INFERENCE_FAILURE", "UNDEFINED"]
+confidence = [
+    "HIGH",
+    "CONTROL_FLOW",
+    "INFERENCE",
+    "INFERENCE_FAILURE",
+    "UNDEFINED",
+]
 
-disable = ["raw-checker-failed", "bad-inline-option", "locally-disabled", "file-ignored",
-    "suppressed-message", "useless-suppression", "deprecated-pragma",
-    "use-symbolic-message-instead", "missing-module-docstring",
-    "missing-function-docstring", "invalid-name",
-    "no-name-in-module", "missing-class-docstring", "too-few-public-methods"]
+disable = [
+    "raw-checker-failed",
+    "bad-inline-option",
+    "locally-disabled",
+    "file-ignored",
+    "suppressed-message",
+    "useless-suppression",
+    "deprecated-pragma",
+    "use-symbolic-message-instead",
+    "missing-module-docstring",
+    "missing-function-docstring",
+    "invalid-name",
+    "no-name-in-module",
+    "missing-class-docstring",
+    "too-few-public-methods",
+]
 
 
 [tool.isort]
@@ -58,9 +75,33 @@ profile = "black"
 [tool.mypy]
 
 [[tool.mypy.overrides]]
-module = [
-    "mlflow.*",
-    "sklearn.*",
-    "ruamel.*",
-]
+module = ["mlflow.*", "sklearn.*", "ruamel.*"]
 ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ['.']
+branch = true
+
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 100
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if False:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+
+    '...',
+]
